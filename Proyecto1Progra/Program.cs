@@ -28,11 +28,13 @@ class Program
                         RetirarVehiculo(estacionamiento);
                         break;
                     case 3:
+                        Console.Clear();
                         estacionamiento.MostrarVehiculosEstacionados();
                         Console.WriteLine("Presione cualquier tecla para volver al menú principal");
                         Console.ReadKey();
                         break;
                     case 4:
+                        Console.Clear();
                         estacionamiento.MostrarEspaciosDisponibles();
                         Console.WriteLine("Presione cualquier tecla para volver al menú principal");
                         Console.ReadKey();
