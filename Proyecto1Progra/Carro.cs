@@ -10,8 +10,8 @@ namespace Proyecto1Progra
     {
         public int NumeroPuertas { get; set; }
 
-        public Carro(string placa, string marca, string modelo, int numeroPuertas)
-            : base(placa, marca, modelo)
+        public Carro(string placa, string marca, string modelo,string color, int numeroPuertas)
+            : base(placa, marca, modelo, color)
         {
             NumeroPuertas = numeroPuertas;
         }

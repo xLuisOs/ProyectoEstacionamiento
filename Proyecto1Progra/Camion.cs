@@ -10,8 +10,8 @@ namespace Proyecto1Progra
     {
         public double CapacidadCarga { get; set; }
 
-        public Camion(string placa, string marca, string modelo, double capacidadCarga)
-            : base(placa, marca, modelo)
+        public Camion(string placa, string marca, string modelo,string color, double capacidadCarga)
+            : base(placa, marca, modelo, color)
         {
             CapacidadCarga = capacidadCarga;
         }

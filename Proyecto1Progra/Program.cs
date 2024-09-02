@@ -120,6 +120,8 @@ class Program
         string marca = Console.ReadLine();
         Console.WriteLine("Ingrese el modelo:");
         string modelo = Console.ReadLine();
+        Console.WriteLine("Ingrese el color:");
+        string color = Console.ReadLine();
 
         int numeroPuertas;
         while (true)
@@ -138,7 +140,7 @@ class Program
             }
         }
 
-        Vehiculos vehiculo = new Carro(placa, marca, modelo, numeroPuertas);
+        Vehiculos vehiculo = new Carro(placa, marca, modelo, color, numeroPuertas);
         estacionamiento.RegistrarVehiculo(vehiculo);
     }
 
@@ -151,6 +153,8 @@ class Program
         string marca = Console.ReadLine();
         Console.WriteLine("Ingrese el modelo:");
         string modelo = Console.ReadLine();
+        Console.WriteLine("Ingrese el color:");
+        string color = Console.ReadLine();
 
         bool sideCar;
         while (true)
@@ -170,7 +174,7 @@ class Program
             }
         }
 
-        Vehiculos vehiculo = new Moto(placa, marca, modelo, sideCar);
+        Vehiculos vehiculo = new Moto(placa, marca, modelo, color, sideCar);
         estacionamiento.RegistrarVehiculo(vehiculo);
     }
 
@@ -183,6 +187,8 @@ class Program
         string marca = Console.ReadLine();
         Console.WriteLine("Ingrese el modelo:");
         string modelo = Console.ReadLine();
+        Console.WriteLine("Ingrese el color:");
+        string color = Console.ReadLine();
 
         double capacidadCarga;
         while (true)
@@ -201,7 +207,7 @@ class Program
             }
         }
 
-        Vehiculos vehiculo = new Camion(placa, marca, modelo, capacidadCarga);
+        Vehiculos vehiculo = new Camion(placa, marca, modelo, color, capacidadCarga);
         estacionamiento.RegistrarVehiculo(vehiculo);
     }
     static void RetirarVehiculo(Estacionamiento estacionamiento)
@@ -250,7 +256,7 @@ class Program
                     }
                     else if (metodoPago == 2)
                     {
-                        
+                        ProcesarPagoTarjeta(costoTotal);
                         break;
                     }
                     else
@@ -331,5 +337,73 @@ class Program
             }
         }
     }
+    static void ProcesarPagoTarjeta(decimal costoTotal)
+    {
+        Console.WriteLine("Ingrese los detalles de la tarjeta:");
 
+        string numeroTarjeta;
+        while (true)
+        {
+            Console.WriteLine("Número de Tarjeta (16 dígitos):");
+            numeroTarjeta = Console.ReadLine();
+            if (numeroTarjeta.Length == 16 && long.TryParse(numeroTarjeta, out _))
+            {
+                break;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Número de tarjeta inválido. Debe ser numérico y tener 16 dígitos.");
+                Console.ResetColor();
+            }
+        }
+
+        Console.WriteLine("Nombre del Titular:");
+        string nombreTitular = Console.ReadLine();
+
+        DateTime fechaExpiracion;
+        while (true)
+        {
+            Console.WriteLine("Fecha de Vencimiento (MM/AA):");
+            string[] fecha = Console.ReadLine().Split('/');
+            if (fecha.Length == 2 && int.TryParse(fecha[0], out int mes) && int.TryParse(fecha[1], out int año))
+            {
+                fechaExpiracion = new DateTime(2000 + año, mes, 1);
+                if (fechaExpiracion > DateTime.Now)
+                {
+                    break;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Fecha de vencimiento inválida. Debe ser una fecha futura.");
+                    Console.ResetColor();
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Formato de fecha inválido. Intente de nuevo.");
+                Console.ResetColor();
+            }
+        }
+
+        int cvv;
+        while (true)
+        {
+            Console.WriteLine("CVV (3 o 4 dígitos):");
+            string cvvInput = Console.ReadLine();
+            if ((cvvInput.Length == 3 || cvvInput.Length == 4) && int.TryParse(cvvInput, out cvv))
+            {
+                break;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("CVV inválido. Debe ser numérico y tener 3 o 4 dígitos.");
+                Console.ResetColor();
+            }
+        }
+        Console.WriteLine("Transacción aprobada. ¡Gracias por su pago!");
+    }
 }

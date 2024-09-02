@@ -9,8 +9,8 @@ namespace Proyecto1Progra
     public class Moto : Vehiculos
     {
         public bool SideCar { get; set; }
-        public Moto(string placa, string marca, string modelo, bool sideCar)
-            : base(placa, marca, modelo)
+        public Moto(string placa, string marca, string modelo,string color, bool sideCar)
+            : base(placa, marca, modelo, color)
         {
             SideCar = sideCar;
         }

@@ -3,14 +3,16 @@
     public string Placa { get; set; }
     public string Marca { get; set; }
     public string Modelo { get; set; }
+    public string Color { get; set; }
     public DateTime HoraDeEntrada { get; private set; }
 
-    public Vehiculos(string placa, string marca, string modelo)
+    public Vehiculos(string placa, string marca, string modelo, string color)
     {
         Placa = placa;
         Marca = marca;
         Modelo = modelo;
         RegistrarEntrada();
+        Color = color;
     }
     public void RegistrarEntrada()
     {
@@ -21,6 +23,7 @@
         Console.WriteLine($"Placa: {Placa}");
         Console.WriteLine($"Marca: {Marca}");
         Console.WriteLine($"Modelo: {Modelo}");
+        Console.WriteLine($"Color: {Color}");
         Console.WriteLine($"Hora de Entrada: {HoraDeEntrada}");
     }
     public TimeSpan CalcularTiempoEstacionado()
