@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Estacionamiento estacionamiento = new Estacionamiento(3);
+        Estacionamiento estacionamiento = new Estacionamiento(10);
         int opcion = 0;
         do
         {
@@ -25,10 +25,13 @@ class Program
                         MenuAgregarVehiculo(estacionamiento);
                         break;
                     case 2:
+                        RetirarVehiculo(estacionamiento);
                         break;
                     case 3:
+
                         break;
                     case 4:
+
                         break;
                     case 5:
                         Console.WriteLine("Gracias por usar nuestros servicios :)");
@@ -52,14 +55,15 @@ class Program
 
     static void MenuAgregarVehiculo(Estacionamiento estacionamiento)
     {
-        if (!estacionamiento.HayEspaciosDisponibles())
+        estacionamiento.MostrarEspaciosDisponibles();
+
+        if (estacionamiento.CapacidadMaxima <= estacionamiento.VehiculosEstacionados.Count)
         {
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("No hay espacios disponibles en el estacionamiento");
             Console.ResetColor();
             Console.WriteLine("Presione cualquier tecla para volver al menú principal...");
             Console.ReadKey();
-            return;
         }
 
         int tipoVehiculo = 0;
@@ -192,12 +196,88 @@ class Program
             catch (FormatException)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Error: Debe ingresar un número válido para la capacidad de carga");
+                Console.WriteLine("Error: Debe ingresar un número válido para la capacidad de carga.");
                 Console.ResetColor();
             }
         }
 
         Vehiculos vehiculo = new Camion(placa, marca, modelo, capacidadCarga);
         estacionamiento.RegistrarVehiculo(vehiculo);
+    }
+    static void RetirarVehiculo(Estacionamiento estacionamiento)
+    {
+        Console.Clear();
+
+        if (estacionamiento.VehiculosEstacionados.Count == 0)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("No hay vehículos registrados en el estacionamiento.");
+            Console.ResetColor();
+            Console.WriteLine("Presione cualquier tecla para volver al menú principal");
+            Console.ReadKey();
+            return;
+        }
+
+        Console.WriteLine("Ingrese la placa del vehículo que desea retirar:");
+        string placa = Console.ReadLine().ToLower();
+
+        Vehiculos vehiculo = estacionamiento.VehiculosEstacionados.Find(v => v.Placa.ToLower().Equals(placa));
+
+        if (vehiculo != null)
+        {
+            TimeSpan tiempoEstacionado = vehiculo.CalcularTiempoEstacionado();
+
+            decimal costoTotal = vehiculo.CalcularCosto();
+
+            Console.WriteLine($"Vehículo con placa {placa.ToUpper()} ha sido retirado");
+            Console.WriteLine($"Tiempo estacionado: {tiempoEstacionado.Hours} horas");
+            Console.WriteLine($"Costo total: Q{costoTotal}");
+
+            Console.WriteLine("Seleccione el método de pago:");
+            Console.WriteLine("1. Efectivo");
+            Console.WriteLine("2. Tarjeta");
+
+            int metodoPago;
+            while (true)
+            {
+                try
+                {
+                    metodoPago = Convert.ToInt32(Console.ReadLine());
+                    if (metodoPago == 1)
+                    {
+                        
+                        break;
+                    }
+                    else if (metodoPago == 2)
+                    {
+                        
+                        break;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Método de pago no válido. Intente de nuevo");
+                        Console.ResetColor();
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Error de formato. Intente de nuevo");
+                    Console.ResetColor();
+                }
+            }
+
+            estacionamiento.VehiculosEstacionados.Remove(vehiculo);
+        }
+        else
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("Vehículo no encontrado");
+            Console.ResetColor();
+        }
+
+        Console.WriteLine("Presione cualquier tecla para volver al menú principal");
+        Console.ReadKey();
     }
 }

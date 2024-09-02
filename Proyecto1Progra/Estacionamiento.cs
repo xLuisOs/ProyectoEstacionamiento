@@ -8,43 +8,69 @@ namespace Proyecto1Progra
 {
     public class Estacionamiento
     {
-        public int CapacidadMaxima {  get; set; }
-        public List<Vehiculos> VehiculosEstacionados { get; set;}
+        private int capacidadMaxima;
+        private List<Vehiculos> vehiculosEstacionados;
+
+        public int CapacidadMaxima
+        {
+            get { return capacidadMaxima; }
+        }
+
+        public List<Vehiculos> VehiculosEstacionados
+        {
+            get { return vehiculosEstacionados; }
+        }
+
         public Estacionamiento(int capacidadMaxima)
         {
-            CapacidadMaxima = capacidadMaxima;
-            VehiculosEstacionados = new List<Vehiculos>();
+            this.capacidadMaxima = capacidadMaxima;
+            this.vehiculosEstacionados = new List<Vehiculos>();
         }
+
         public void RegistrarVehiculo(Vehiculos vehiculo)
         {
-            if (VehiculosEstacionados.Count >= CapacidadMaxima)
+            if (vehiculosEstacionados.Count >= capacidadMaxima)
             {
                 Console.WriteLine("No hay espacios disponibles en el estacionamiento");
             }
             else
             {
-                VehiculosEstacionados.Add(vehiculo);
+                vehiculosEstacionados.Add(vehiculo);
                 Console.WriteLine("Vehículo registrado exitosamente");
                 vehiculo.RegistrarEntrada();
             }
         }
-        public void MostrarVehiculosEstacionados()
+
+        public void MostrarEspaciosDisponibles()
         {
-            if (VehiculosEstacionados.Count == 0)
+            int espaciosDisponibles = capacidadMaxima - vehiculosEstacionados.Count;
+
+            if (espaciosDisponibles > 0)
             {
-                Console.WriteLine("No hay vehículos estacionados actualmente");
-                return;
+                Console.WriteLine($"Espacios disponibles en el estacionamiento: {espaciosDisponibles}");
             }
-            Console.WriteLine("Vehículos actualmente estacionados: ");
-            foreach (var vehiculo in VehiculosEstacionados)
+            else
             {
-                vehiculo.MostrarInfo();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("No hay espacios disponibles en el estacionamiento.");
+                Console.ResetColor();
             }
 
         }
-        public bool HayEspaciosDisponibles()
+        public void MostrarVehiculosEstacionados()
+        {
+            if (vehiculosEstacionados.Count == 0)
             {
-                return VehiculosEstacionados.Count < CapacidadMaxima;
+                Console.WriteLine("No hay vehículos estacionados.");
             }
+            else
+            {
+                foreach (var vehiculo in vehiculosEstacionados)
+                {
+                    vehiculo.MostrarInfo();
+                    Console.WriteLine();
+                }
+            }
+        }
     }
 }
