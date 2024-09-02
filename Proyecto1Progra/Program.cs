@@ -245,7 +245,7 @@ class Program
                     metodoPago = Convert.ToInt32(Console.ReadLine());
                     if (metodoPago == 1)
                     {
-                        
+                        ProcesarPagoEfectivo(costoTotal);
                         break;
                     }
                     else if (metodoPago == 2)
@@ -280,4 +280,56 @@ class Program
         Console.WriteLine("Presione cualquier tecla para volver al menú principal");
         Console.ReadKey();
     }
+    static void ProcesarPagoEfectivo(decimal costoTotal)
+    {
+        decimal montoEntregado;
+        while (true)
+        {
+            Console.WriteLine($"Ingrese el monto entregado (costo total: Q{costoTotal}):");
+            try
+            {
+                montoEntregado = decimal.Parse(Console.ReadLine());
+                if (montoEntregado < costoTotal)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Monto insuficiente. Ingrese un monto adicional.");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    break;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Ingrese un monto válido.");
+                Console.ResetColor();
+            }
+        }
+
+        decimal cambio = montoEntregado - costoTotal;
+        Console.WriteLine($"Cambio a devolver: Q{cambio}");
+
+        int[] billetes = { 200, 100, 50, 20, 10, 5, 1 };
+        int[] cantidadBilletes = new int[billetes.Length];
+
+        for (int i = 0; i < billetes.Length; i++)
+        {
+            if (cambio >= billetes[i])
+            {
+                cantidadBilletes[i] = (int)(cambio / billetes[i]);
+                cambio %= billetes[i];
+            }
+        }
+
+        for (int i = 0; i < billetes.Length; i++)
+        {
+            if (cantidadBilletes[i] > 0)
+            {
+                Console.WriteLine($"Q{billetes[i]}: {cantidadBilletes[i]} billete/s");
+            }
+        }
+    }
+
 }
