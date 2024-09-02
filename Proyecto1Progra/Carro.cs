@@ -10,15 +10,22 @@ namespace Proyecto1Progra
     {
         public int NumeroPuertas { get; set; }
 
-        public Carro(string placa, string marca, string modelo, string tipoGasolina, int numeroPuertas)
-            : base (placa, marca, modelo, tipoGasolina)
+        public Carro(string placa, string marca, string modelo, int numeroPuertas)
+            : base(placa, marca, modelo)
         {
             NumeroPuertas = numeroPuertas;
         }
         public override void MostrarInfo()
         {
             base.MostrarInfo();
-            Console.WriteLine($"Numero de Puertas: {NumeroPuertas}");
+            Console.WriteLine($"Número de Puertas: {NumeroPuertas}");
+        }
+        public override decimal CalcularCosto()
+        {
+            TimeSpan tiempoEstacionado = CalcularTiempoEstacionado();
+            decimal tarifaPorHora = 20m;
+            return tarifaPorHora * tiempoEstacionado.Hours;
         }
     }
+
 }

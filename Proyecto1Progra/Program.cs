@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Estacionamiento estacionamiento = new Estacionamiento(10);
+        Estacionamiento estacionamiento = new Estacionamiento(3);
         int opcion = 0;
         do
         {
@@ -33,22 +33,32 @@ class Program
                     case 5:
                         Console.WriteLine("Gracias por usar nuestros servicios :)");
                         break;
+                    default:
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Opción no válida. Intenta de nuevo");
+                        Console.ResetColor();
+                        break;
                 }
-
             }
             catch (FormatException)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Error de formato. Intenta de nuevo");
+                Console.ResetColor();
             }
         }
         while (opcion != 5);
     }
+
     static void MenuAgregarVehiculo(Estacionamiento estacionamiento)
     {
         if (!estacionamiento.HayEspaciosDisponibles())
         {
-            Console.WriteLine($"No hay espacios disponibles en el estacionamiento");
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine("No hay espacios disponibles en el estacionamiento");
+            Console.ResetColor();
+            Console.WriteLine("Presione cualquier tecla para volver al menú principal...");
+            Console.ReadKey();
             return;
         }
 
@@ -106,45 +116,88 @@ class Program
         string marca = Console.ReadLine();
         Console.WriteLine("Ingrese el modelo:");
         string modelo = Console.ReadLine();
-        Console.WriteLine("Ingrese el tipo de gasolina:");
-        string tipoGasolina = Console.ReadLine();
-        Console.WriteLine("Ingrese el número de puertas:");
-        int numeroPuertas = int.Parse(Console.ReadLine());
 
-        Vehiculos vehiculo = new Carro(placa, marca, modelo, tipoGasolina, numeroPuertas);
+        int numeroPuertas;
+        while (true)
+        {
+            Console.WriteLine("Ingrese el número de puertas:");
+            try
+            {
+                numeroPuertas = int.Parse(Console.ReadLine());
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Debe ingresar un número válido para el número de puertas.");
+                Console.ResetColor();
+            }
+        }
+
+        Vehiculos vehiculo = new Carro(placa, marca, modelo, numeroPuertas);
         estacionamiento.RegistrarVehiculo(vehiculo);
     }
+
     static void AgregarMoto(Estacionamiento estacionamiento)
     {
+        Console.Clear();
         Console.WriteLine("Ingrese la placa:");
         string placa = Console.ReadLine();
         Console.WriteLine("Ingrese la marca:");
         string marca = Console.ReadLine();
         Console.WriteLine("Ingrese el modelo:");
         string modelo = Console.ReadLine();
-        Console.WriteLine("Ingrese el tipo de gasolina:");
-        string tipoGasolina = Console.ReadLine();
-        Console.WriteLine("¿Tiene sidecar? (true/false):");
-        bool sideCar = bool.Parse(Console.ReadLine());
 
-        Vehiculos vehiculo = new Moto(placa, marca, modelo, tipoGasolina, sideCar);
+        bool sideCar;
+        while (true)
+        {
+            Console.WriteLine("¿Tiene sidecar? (true/false):");
+            try
+            {
+                string input = Console.ReadLine().ToLower();
+                sideCar = bool.Parse(input);
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Debe ingresar 'true' o 'false' para el sidecar.");
+                Console.ResetColor();
+            }
+        }
+
+        Vehiculos vehiculo = new Moto(placa, marca, modelo, sideCar);
         estacionamiento.RegistrarVehiculo(vehiculo);
     }
 
     static void AgregarCamion(Estacionamiento estacionamiento)
     {
+        Console.Clear();
         Console.WriteLine("Ingrese la placa:");
         string placa = Console.ReadLine();
         Console.WriteLine("Ingrese la marca:");
         string marca = Console.ReadLine();
         Console.WriteLine("Ingrese el modelo:");
         string modelo = Console.ReadLine();
-        Console.WriteLine("Ingrese el tipo de gasolina:");
-        string tipoGasolina = Console.ReadLine();
-        Console.WriteLine("Ingrese la capacidad de carga:");
-        double capacidadCarga = double.Parse(Console.ReadLine());
 
-        Vehiculos vehiculo = new Camion(placa, marca, modelo, tipoGasolina, capacidadCarga);
+        double capacidadCarga;
+        while (true)
+        {
+            Console.WriteLine("Ingrese la capacidad de carga (en toneladas, solo números):");
+            try
+            {
+                capacidadCarga = double.Parse(Console.ReadLine());
+                break;
+            }
+            catch (FormatException)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Debe ingresar un número válido para la capacidad de carga");
+                Console.ResetColor();
+            }
+        }
+
+        Vehiculos vehiculo = new Camion(placa, marca, modelo, capacidadCarga);
         estacionamiento.RegistrarVehiculo(vehiculo);
     }
 }

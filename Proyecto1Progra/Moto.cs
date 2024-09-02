@@ -8,17 +8,22 @@ namespace Proyecto1Progra
 {
     public class Moto : Vehiculos
     {
-        bool SideCar {  get; set; }
-
-        public Moto(string placa, string marca, string modelo, string tipoGasolina, bool sideCar)
-            :base (placa, marca, modelo, tipoGasolina)
+        public bool SideCar { get; set; }
+        public Moto(string placa, string marca, string modelo, bool sideCar)
+            : base(placa, marca, modelo)
         {
             SideCar = sideCar;
         }
         public override void MostrarInfo()
         {
             base.MostrarInfo();
-            Console.WriteLine($"Tiene side car?: {SideCar}");
+            Console.WriteLine($"Tiene SideCar: {SideCar}");
+        }
+        public override decimal CalcularCosto()
+        {
+            TimeSpan tiempoEstacionado = CalcularTiempoEstacionado();
+            decimal tarifaPorHora = 10m;
+            return tarifaPorHora * tiempoEstacionado.Hours;
         }
     }
 }
