@@ -33,6 +33,10 @@ class Program
                         Console.ReadKey();
                         break;
                     case 4:
+                        estacionamiento.MostrarEspaciosDisponibles();
+                        Console.WriteLine("Presione cualquier tecla para volver al menú principal");
+                        Console.ReadKey();
+                        break;
 
                         break;
                     case 5:
